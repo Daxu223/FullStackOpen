@@ -18,52 +18,34 @@ const App = () => {
 
 const Statistics = ({ statistics }) => {
   const [good, neutral, bad] = statistics // Destructure the array from object to individual variables
-  
-  const calculateStatistics = (good, neutral, bad) => {
-    const all = good + neutral + bad
-    const positivePercent = good > 0 ? (good / all) * 100 + ' %': '0 %'
-    const average = all > 0 ? (bad * -1 + good) / all : 0
+  const all = good + neutral + bad
+  const positivePercent = good > 0 ? (good / all) * 100 + ' %' : '0 %'
+  const average = all > 0 ? (bad * -1 + good) / all : 0
 
-    return { all, average, positivePercent }
-  
-  }
-
-  const { all, average, positivePercent } = calculateStatistics(good, neutral, bad)
-  console.log(positivePercent)
-
-  const returnDiv = (all) => {
-    if (all > 0) {
-      return (
-        <div>
+  if (all > 0) {
+    return (
+      <div>
         <h1>statistics</h1>
         <table>
           <tbody>
             <tr><StatisticsLine text="good" value={good} /></tr>
-            <tr><StatisticsLine text="neutral" value ={neutral} /></tr>
-            <tr><StatisticsLine text="bad" value ={bad} /></tr>
-            <tr><StatisticsLine text="all" value ={all} /></tr>
-            <tr><StatisticsLine text="average" value ={average} /></tr>
-            <tr><StatisticsLine text="positive" value ={positivePercent.toString()} /></tr>
+            <tr><StatisticsLine text="neutral" value={neutral} /></tr>
+            <tr><StatisticsLine text="bad" value={bad} /></tr>
+            <tr><StatisticsLine text="all" value={all} /></tr>
+            <tr><StatisticsLine text="average" value={average} /></tr>
+            <tr><StatisticsLine text="positive" value={positivePercent.toString()} /></tr>
           </tbody>
-
         </table>
       </div>
-      )
-    } else {
+    )
+  } else {
     return (
       <div>
         <h1>statistics</h1>
         <div>No feedback given</div>
       </div>
-      )
-    }
+    )
   }
-
-  return (
-    <div>
-      {returnDiv(all)}
-    </div>
-  )
 }
 
 const StatisticsLine = ({ value, text }) => {
