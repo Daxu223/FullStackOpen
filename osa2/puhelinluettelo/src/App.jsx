@@ -1,15 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const App = () => {
 
   // Set initial state for persons and store objects in array
-  const [persons, setPersons] = useState([
-    { id: 1, name: 'Arto Hellas', number: '040-123456' },
-    { id: 2, name: 'Ada Lovelace', number: '39-44-5323523' },
-    { id: 3, name: 'Dan Abramov', number: '12-43-234345' },
-    { id: 4, name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+  const [persons, setPersons] = useState([])
 
+  // Not sure where to put this
+  useEffect(() => {
+    console.log("effect")
+    axios
+      .get("http://localhost:3001/persons")
+      .then(response => {
+          console.log("promise fulfilled")
+          setPersons(response.data)
+      })
+  }, [])
+
+  console.log("rendered", persons.length, 'persons')
   // Used to control the form input field
   const [newName, setNewName] = useState('')
 
@@ -50,6 +58,8 @@ const App = () => {
   }
 
   const filteredPersons = (persons) => {
+
+
     return persons.filter(person => person.name.toLowerCase().startsWith(filter))
   }
 
