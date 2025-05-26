@@ -1,12 +1,10 @@
 const express = require("express")
 const morgan = require("morgan")
-const cors = require("cors")
 
 const app = express()
 
 app.use(express.json())
 app.use(express.static('dist')) // Serve static files from the 'dist' directory
-app.use(cors()) // Default CORS middleware configuration to allow requests from any origin
 
 // Define custom Morgan token for request body
 morgan.token('reqbody', function(req) {
