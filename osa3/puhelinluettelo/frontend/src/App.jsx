@@ -6,10 +6,12 @@ const App = () => {
   // Set initial state for persons and store objects in array
   const [persons, setPersons] = useState([])
 
+  // Loads persons from backend using the route /api/persons/
   useEffect(() => {
     phonebookService
       .getAll()
       .then(initialPersons => {
+        console.log("Rendered", initialPersons.length, 'persons')
         setPersons(initialPersons)
       })
     }, [])

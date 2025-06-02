@@ -6,4 +6,4 @@ Other topics include debugging applications, container technology, configuration
 
 Other stuff:
 - Deployed phonebook service: https://puhelinluettelo-service-si0s.onrender.com/
-- The adding and changing functionality not yet working, as MongoDB needs to be integrated into the working solution.
+- Works via a MongoDB database, connecting frontend and backend
