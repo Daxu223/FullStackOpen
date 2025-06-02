@@ -25,7 +25,7 @@ const App = () => {
   // Used to filter persons in a form
   const [filter, setNewFilter] = useState('')
 
-  const [message, setMessage] = useState(null)
+  const [message, setMessage] = useState({ text: null, type: null })
 
   // Updates hooks based on name when a form is changed
   const handleFormChange = (event) => {
@@ -67,14 +67,23 @@ const App = () => {
         console.log("Rendered", persons.length, 'persons')
 
         // Generate inline css for adding contact
-        setMessage(`Added ${personObject.name}`)
+        setMessage({text: `Added ${personObject.name}`, type: "success"})
         setTimeout(() => {
-          setMessage(null)
+          setMessage({ text: null, type: null })
         }, 4000)
 
         // Reset form input field state
         setNewName('')
         setNewNumber('')
+      })
+      .catch(error => {
+        setMessage({text: error.response.data.error, type: "error"})
+        setTimeout(() => {
+          setMessage({ text: null, type: null })
+        }, 4000)
+        
+        console.log(error.response.data)
+
       })
     }
   }
@@ -97,7 +106,7 @@ const App = () => {
       </form>
       
       <h2>Numbers</h2>
-      <Persons personList={filteredPersons(persons)} setPersons={setPersons} />
+      <Persons personList={filteredPersons(persons)} setPersons={setPersons} setMessage={setMessage} />
 
     </div>
   )
@@ -109,8 +118,8 @@ const Notification = ({ message }) => {
   }
 
   return (
-    <div className="success">
-      {message}
+    <div className={message.type}>
+      {message.text}
     </div>
   )
 }
@@ -135,14 +144,14 @@ const Input = ({ text, inputName, value, handleFunction}) => {
   )
 }
 
-const Persons = ({ personList, setPersons }) => {
+const Persons = ({ personList, setPersons, setMessage }) => {
   return (
     <div>
       {personList.map(person => {
         return (
           <div key={person.id}>
             <Person name={person.name} number={person.number} />
-            <DeleteButton id={person.id} name={person.name} setPersons={setPersons} />
+            <DeleteButton id={person.id} name={person.name} setPersons={setPersons} setMessage={setMessage} />
           </div>
           )
         })
@@ -151,13 +160,20 @@ const Persons = ({ personList, setPersons }) => {
   )
 }
 
-const DeleteButton = ({ id, name, setPersons }) => {
+const DeleteButton = ({ id, name, setPersons, setMessage }) => {
   const handleDelete = id => {
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
       phonebookService
       .deletePerson(id)
       .then(() => {
           setPersons(prevPersons => prevPersons.filter(person => person.id !== id))
+          
+          // Generate red CSS message for deleting a person
+          // Used 'error' as type but not really an error.
+          setMessage({text: `Removed ${name}`, type: "error"})
+          setTimeout(() => {
+            setMessage({ text: null, type: null })
+          }, 4000)
         })
       }
     }
