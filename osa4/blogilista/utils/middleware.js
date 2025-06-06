@@ -5,8 +5,14 @@ const unknownEndpoint = (request, response) => {
 }
 
 const requestLogger = (request, response, next) => {
-  logger.info(`${request.method} (${request.path}):`)
-  logger.info('Body: ', request.body)
+  if (request.method == "POST") {
+    logger.info(`${request.method} (${request.path}):`)
+    logger.info('Body: ', request.body)
+  } else {
+    logger.info(`${request.method} (${request.path})`)
+  }
+
+
   next()
 }
 
