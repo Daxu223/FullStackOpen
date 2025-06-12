@@ -1,0 +1,10 @@
+PUT http://localhost:3001/api/blogs/684afcda22b8c0ca16f0d06a
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRheHUiLCJpZCI6IjY4NDdmZGQxNjk5NmFkNDIxZGM3Yjk3NCIsImlhdCI6MTc0OTc1MDA1MywiZXhwIjoxNzQ5NzUzNjUzfQ.3KNI1G6Dv3r7CMDVQg600Nv9Tx-wAM4ONAJ-bTHtj2k
+
+{
+    "title": "Updated a blog, yay!",
+    "author": "New Daxu",
+    "url": "https://fullstackopen.com/osa4/token_perustainen_kirjautuminen",
+    "likes": 1337
+}

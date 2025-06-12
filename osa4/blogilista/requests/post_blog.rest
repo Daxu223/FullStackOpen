@@ -1,9 +1,0 @@
-POST http://localhost:3001/api/blogs/
-Content-Type: application/json
-
-{
-    "title": "Third post",
-    "author": "Daxu",
-    "url": "joku",
-    "likes": 0
-}
