@@ -1,19 +1,18 @@
 import { useDispatch, useSelector } from "react-redux"
 import { voteAnecdote } from "../reducers/anecdoteReducer"
-import { showNotification, hideNotification } from "../reducers/notificationReducer"
-import { useRef } from 'react'
+import { setNotification } from "../reducers/notificationReducer"
 import PropTypes from 'prop-types'
 
 // WARNING: Lots of comments, this is for learning purposes
-const Anecdote = ({ content, votes, handleClick }) => {
+const Anecdote = ({ anecdote, handleClick }) => {
     return (
     <div>
       <div>
-        {content}
+        {anecdote.content}
       </div>
     
       <div>
-        has {votes}
+        has {anecdote.votes}
         <button onClick={handleClick}>vote</button>
       </div>
     </div>
@@ -21,8 +20,7 @@ const Anecdote = ({ content, votes, handleClick }) => {
 }
 
 Anecdote.propTypes = {
-    content: PropTypes.string,
-    votes: PropTypes.number,
+    anecdote: PropTypes.object,
     handleClick: PropTypes.func
 }
 
@@ -50,37 +48,19 @@ const AnecdoteList = () => {
     }
   )
 
+  // Dispatch to action creators, which then changes store state.
   const dispatch = useDispatch()
-
-  // This is used clearing timeout if there is a timeout going on
-  const timeoutRef = useRef(null)
-
-  // Show message for a certain duration, duration is in milliseconds
-  const voteAndDisplayNotification = (id, message) => {
-    // Clear timeout if there is a message shown already
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-    }
-
-    // Vote and show notification. Dispatches them to reducers.
-    dispatch(voteAnecdote(id))
-    dispatch(showNotification(message))
-
-    // Display the notification for a duration of milliseconds (5000 = 5 secs)
-    timeoutRef.current = setTimeout(() => {
-      dispatch(hideNotification())
-      timeoutRef.current = null
-    }, 5000)
-  }
 
   return (
     <div>
       {filteredAnecdotes.map(anecdote =>
         <Anecdote 
           key={anecdote.id}
-          content={anecdote.content}
-          votes={anecdote.votes}
-          handleClick={() => voteAndDisplayNotification(anecdote.id, `You voted '${anecdote.content}'`)}
+          anecdote={anecdote}
+          handleClick={() => {
+            dispatch(setNotification(`You voted '${anecdote.content}'`, 5000))
+            dispatch(voteAnecdote(anecdote.id))
+          }}
         />
       )}
     </div>

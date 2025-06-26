@@ -24,3 +24,23 @@ const notificationSlice = createSlice({
 
 export default notificationSlice.reducer
 export const { showNotification, hideNotification } = notificationSlice.actions
+
+// Needed for timeout handling below
+let currentTimeoutId
+
+export const setNotification = (message, duration) => {
+  return async dispatch => {
+    // Clear timeout if it exists, so another message can be displayed
+    if (currentTimeoutId) {
+      clearTimeout(currentTimeoutId)
+    }
+    
+    // Displays the notification with the message
+    dispatch(showNotification(message))
+
+    // Hide notification *after* timeout has run out
+    currentTimeoutId = setTimeout(() => {
+      dispatch(hideNotification())
+    }, duration)
+  }
+}
