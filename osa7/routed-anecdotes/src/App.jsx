@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useField } from './hooks'
 
 import {
   BrowserRouter as Router,
@@ -95,9 +96,10 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  // These hooks return type, value, onChange
+  const content = useField('text')
+  const author = useField('text')
+  const info = useField('text')
 
   const navigate = useNavigate()
 
@@ -106,31 +108,38 @@ const CreateNew = (props) => {
     navigate('/')
 
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.inputFields.value,
+      author: author.inputFields.value,
+      info: info.inputFields.value,
       votes: 0
     })
 
   }
 
+  // Spread operator to input gives them type, value, onChange
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...content.inputFields} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...author.inputFields} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input {...info.inputFields} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button style={{ "marginLeft": 5 }} type="button" onClick={() => {
+          content.reset()
+          author.reset()
+          info.reset()
+          }}
+        >reset</button>
       </form>
     </div>
   )
