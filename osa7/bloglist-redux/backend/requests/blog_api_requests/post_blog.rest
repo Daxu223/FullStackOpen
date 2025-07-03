@@ -1,0 +1,9 @@
+POST http://localhost:3001/api/blogs/
+Content-Type: application/json
+
+{
+    "title": "Blog post test",
+    "author": "Daxu",
+    "url": "https://fullstackopen.com/osa4/token_perustainen_kirjautuminen",
+    "likes": 1337
+}

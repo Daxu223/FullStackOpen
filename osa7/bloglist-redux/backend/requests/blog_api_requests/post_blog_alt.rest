@@ -1,0 +1,9 @@
+POST http://localhost:3001/api/blogs/
+Content-Type: application/json
+
+{
+    "title": "Mastering Async in JavaScript",
+    "author": "Lina Tran",
+    "url": "https://devjournal.io/articles/mastering-async-javascript",
+    "id": "6847fdd16996ad421dc7b974"
+}
