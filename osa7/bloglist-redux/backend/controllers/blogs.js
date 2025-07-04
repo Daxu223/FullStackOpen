@@ -49,13 +49,34 @@ blogsRouter.post('/', async(request, response, next) => {
   }
 })
 
+blogsRouter.post('/:id/comments', async(request, response, next) => {
+  try {
+    const blogId = request.params.id
+    const commentBody = request.body
+
+    if (!commentBody.comment) {
+      return response.status(400).json({ error: 'Comment cannot be empty' })
+    }
+
+    // Construct comment using schema
+    const blog = await Blog.findById(blogId)
+    blog.comments.push(commentBody.comment)
+
+    // Save comment and return saved
+    const savedComment = await blog.save()
+    response.status(201).json(savedComment)
+
+  } catch (error) {
+    next(error)
+  }
+})
+
 // One missing option but not in exercises:
 // blogsRouter.get('/:id => {}): will respond with 'Unknown endpoint'!
 
 blogsRouter.delete('/:id', async(request, response, next) => {
   try {
     // Grab user from from request, added initially in userExtractor
-    console.log(request.user)
     const requestingUser = request.user
 
     // Token is already validated in a middleware
