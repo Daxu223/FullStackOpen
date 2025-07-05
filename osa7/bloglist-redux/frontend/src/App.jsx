@@ -10,7 +10,6 @@ import {
   Navigate,
 } from 'react-router-dom'
 
-// import Blog from './components/Blog'
 import { User, Users } from './components/UsersView'
 import { Blog, BlogDetails } from './components/BlogView'
 import Notification from './components/Notification'
